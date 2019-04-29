@@ -5,6 +5,7 @@ import Item from './components/Item';
 class App extends Component {
   state = {
     field: [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, null]],
+    turns: 0,
   };
 
   componentDidMount() {
@@ -19,8 +20,10 @@ class App extends Component {
     const newField = [[...row1], [...row2], [...row3], [...row4]];
     newField[valuePos.row][valuePos.colomn] = null;
     newField[nullPos.row][nullPos.colomn] = value;
+    const { turns } = this.state;
     this.setState({
       field: newField,
+      turns: turns + 1,
     });
   };
 
@@ -70,6 +73,7 @@ class App extends Component {
 
     this.setState({
       field: startArr,
+      turns: 0,
     });
   };
 
@@ -94,6 +98,10 @@ class App extends Component {
     return (
       <div className={classes.App}>
         <div className={classes.Field}>{renderField()}</div>
+        <button className={classes.Restart} onClick={() => this.startGame()}>
+          Restart
+        </button>
+        <span className={classes.Count}>Total turns: {this.state.turns}</span>
       </div>
     );
   }
