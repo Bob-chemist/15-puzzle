@@ -7,6 +7,10 @@ class App extends Component {
     field: [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, null]],
   };
 
+  componentDidMount() {
+    this.startGame();
+  }
+
   moveHandler = value => {
     const valuePos = this.findValue(value);
     const nullPos = this.findValue(null);
@@ -49,6 +53,24 @@ class App extends Component {
         return { row: +row, colomn };
       }
     }
+  };
+
+  startGame = () => {
+    let startArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, null];
+    let field = [];
+
+    for (let i = 15; i >= 0; i--) {
+      let idx = Math.floor(Math.random() * (i + 1));
+      field = field.concat(startArr.splice(idx, 1));
+    }
+
+    for (let i = 0; i < 4; i++) {
+      startArr.push(field.splice(0, 4));
+    }
+
+    this.setState({
+      field: startArr,
+    });
   };
 
   render() {
