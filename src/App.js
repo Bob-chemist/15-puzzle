@@ -6,6 +6,7 @@ class App extends Component {
   state = {
     field: [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, null]],
     turns: 0,
+    solved: false,
   };
 
   componentDidMount() {
@@ -21,10 +22,17 @@ class App extends Component {
     newField[valuePos.row][valuePos.colomn] = null;
     newField[nullPos.row][nullPos.colomn] = value;
     const { turns } = this.state;
+    const check = this.isSolved(newField);
     this.setState({
       field: newField,
       turns: turns + 1,
+      solved: check,
     });
+  };
+
+  isSolved = arr => {
+    const victory = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, null];
+    return arr.flat().every((val, idx) => val === victory[idx]);
   };
 
   isChangeble = (valuePos, nullPos) => {
@@ -81,16 +89,17 @@ class App extends Component {
 
   isSolvable = arr => {
     let sum = 0;
-    const { nullRow } = this.findValue(null);
-    for (let i = 0; i < 16; i++) {
-      sum = arr.reduce((accum, val) => {
-        if (arr[i] > val) {
-          return ++accum;
+    const { row } = this.findValue(null);
+
+    for (let i = 0; i < 14; i++) {
+      for (let k = i + 1; k < 15; k++) {
+        if (arr[i] > arr[k]) {
+          ++sum;
         }
-        return accum;
-      }, sum);
+      }
     }
-    return (sum + nullRow + 1) % 2 ? false : true;
+
+    return (sum + row + 1) % 2 ? false : true;
   };
 
   render() {
@@ -113,6 +122,9 @@ class App extends Component {
     };
     return (
       <div className={classes.App}>
+        {this.state.solved ? (
+          <div className={classes.Winner}>You WIN!!!</div>
+        ) : null}
         <div className={classes.Field}>{renderField()}</div>
         <button className={classes.Restart} onClick={() => this.startGame()}>
           Restart
