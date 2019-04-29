@@ -2,7 +2,13 @@ import React from 'react';
 import classes from './Item.module.sass';
 
 const Item = props => {
-  return <div className={classes.Item}>{props.value}</div>;
+  const { value, moveHandler } = props;
+  const style = value ? {} : { border: 'none' };
+  return (
+    <div style={style} className={classes.Item} onClick={moveHandler}>
+      {value}
+    </div>
+  );
 };
 
 export default Item;
