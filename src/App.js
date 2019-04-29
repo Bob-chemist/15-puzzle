@@ -16,7 +16,7 @@ class App extends Component {
   moveHandler = value => {
     const valuePos = this.findValue(value);
     const nullPos = this.findValue(null);
-    if (!this.isChangeble(valuePos, nullPos)) return;
+    if (!this.isChangeble(valuePos, nullPos) || this.state.solved) return;
     const [row1, row2, row3, row4] = this.state.field;
     const newField = [[...row1], [...row2], [...row3], [...row4]];
     newField[valuePos.row][valuePos.colomn] = null;
@@ -84,6 +84,7 @@ class App extends Component {
     this.setState({
       field: startArr,
       turns: 0,
+      solved: false,
     });
   };
 
