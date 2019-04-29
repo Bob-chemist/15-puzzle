@@ -66,7 +66,9 @@ class App extends Component {
       let idx = Math.floor(Math.random() * (i + 1));
       field = field.concat(startArr.splice(idx, 1));
     }
-
+    if (!this.isSolvable(field)) {
+      this.startGame();
+    }
     for (let i = 0; i < 4; i++) {
       startArr.push(field.splice(0, 4));
     }
@@ -75,6 +77,20 @@ class App extends Component {
       field: startArr,
       turns: 0,
     });
+  };
+
+  isSolvable = arr => {
+    let sum = 0;
+    const { nullRow } = this.findValue(null);
+    for (let i = 0; i < 16; i++) {
+      sum = arr.reduce((accum, val) => {
+        if (arr[i] > val) {
+          return ++accum;
+        }
+        return accum;
+      }, sum);
+    }
+    return (sum + nullRow + 1) % 2 ? false : true;
   };
 
   render() {
