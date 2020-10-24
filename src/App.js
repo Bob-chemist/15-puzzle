@@ -1,10 +1,15 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import classes from './App.module.sass';
 import Item from './components/Item';
 
 class App extends Component {
   state = {
-    field: [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, null]],
+    field: [
+      [1, 2, 3, 4],
+      [5, 6, 7, 8],
+      [9, 10, 11, 12],
+      [13, 14, 15, null],
+    ],
     turns: 0,
     solved: false,
   };
@@ -13,7 +18,7 @@ class App extends Component {
     this.startGame();
   }
 
-  moveHandler = value => {
+  moveHandler = (value) => {
     const valuePos = this.findValue(value);
     const nullPos = this.findValue(null);
     if (!this.isChangeble(valuePos, nullPos) || this.state.solved) return;
@@ -30,7 +35,7 @@ class App extends Component {
     });
   };
 
-  isSolved = arr => {
+  isSolved = (arr) => {
     const victory = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, null];
     return arr.flat().every((val, idx) => val === victory[idx]);
   };
@@ -56,7 +61,7 @@ class App extends Component {
     return false;
   };
 
-  findValue = value => {
+  findValue = (value) => {
     const { field } = this.state;
     for (let row in field) {
       if (field[row].includes(value)) {
@@ -88,7 +93,7 @@ class App extends Component {
     });
   };
 
-  isSolvable = arr => {
+  isSolvable = (arr) => {
     let sum = 0;
     const { row } = this.findValue(null);
 

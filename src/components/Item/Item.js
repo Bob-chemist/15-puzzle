@@ -1,7 +1,6 @@
-import React from 'react';
 import classes from './Item.module.sass';
 
-const Item = props => {
+const Item = (props) => {
   const { value, moveHandler } = props;
   const style = value ? {} : { border: 'none', backgroundColor: 'unset' };
   return (
